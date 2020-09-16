@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8" >
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ontario &ndash; Kattis, Kattis</title>
+
+    <link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css" rel="stylesheet">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+    <!-- Fonts/Icons -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,800,700italic,800italic%7CMerriweather:400,400italic,700" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap CSS -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap datetimepicker CSS-->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
+    <!-- DateRangePicker CSS -->
+    <link href="//cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet">
+
+    <!-- Editable and Select2 -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/select2/3.5.4/select2.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="/favicon" />
+
+    <!-- Own CSS -->
+    <link rel="stylesheet" href="/css/system.css?03bf93=">
+    <style type="text/css">
+          .header {
+         background-color: rgb(240,176,52);
+     }
+     .header .main-nav > ul > li.current:before {
+         border-bottom-color: rgb(240,176,52);
+     }
+
+          div.page-content.clearfix.above-everything.alert.alert-danger { color: #31708f; background: #d9edf7; border-color: #bce8f1; }
+div.page-content.clearfix.above-everything.alert.alert-danger div.main-content { padding-bottom: 0; }
+
+         </style>
+
+    <script type="text/javascript">
+        window.page_loaded_at = new Date();
+        jQuery.noConflict();
+    </script>
+
+    <script type="text/javascript">
+    jQuery.ns = function (namespace) {
+        var parts = namespace.split('.');
+        var last = window;
+        for (var i = 0; i < parts.length; i++) {
+            last = last[parts[i]] || (last[parts[i]] = {});
+        }
+        return last;
+    };
+</script>
+    <script>
+jQuery.extend(jQuery.ns('Kattis.error'), (function () {
+    var messages = {"INTERNAL_SERVER_ERROR":"Internal server error.","ACCESS_DENIED":"Access denied.","NOT_AUTHENTICATED":"Not authenticated.","METHOD_NOT_ALLOWED":"Method not allowed.","INVALID_JSON":"JSON cannot be decoded or encoded data is deeper than the recursion limit.","BAD_CSRF_TOKEN":"Token does not match session's csrf_token","SESSION_NAME_EMPTY":"Session's name must be non empty.","SESSION_START_TIME_EMPTY":"Session's start time must be non empty.","SESSION_START_TIME_PASSED":"Session's start time has already passed.","SESSION_DURATION_EMPTY":"Session's duration must be non empty.","SESSION_DURATION_NEGATIVE":"Session's duration must be a positive number.","SESSION_DURATION_EXCEEDED":"Maximum duration for the session was exceeded.","SESSION_ALREADY_STARTED":"The session has already started.","SESSION_ALREADY_FINISHED":"The session is already finished.","USER_CREATED_SESSION_DURATION_EXCEEDED":"Contest cannot be longer than 168 hours.","INVALID_PROBLEM_SCORE":"Invalid problem score.","INVALID_SESSION_SHORTNAME":"Invalid shortname for the session.","INVALID_SESSION_CUTOFF":"Invalid cutoff for the session.","INVALID_USER_NAME":"Invalid username or email.","SESSION_NOT_FOUND":"No such session.","COURSE_NOT_FOUND":"No such course.","OFFERING_NOT_FOUND":"No such offering.","TEACHER_NOT_FOUND":"No such teacher.","TEACHER_CANNOT_REMOVE_SELF":"You may not remove yourself as a teacher unless you are an administrator.","AUTHOR_NOT_FOUND":"No such author.","JUDGE_NOT_FOUND":"No such judge.","JUDGE_ALREADY_EXIST":"The user is already a judge.","TEACHER_ALREADY_EXIST":"The user is already a teacher.","PROBLEM_NOT_FOUND":"No such problem.","TEAM_NOT_FOUND":"No such team.","SESSION_PROBLEM_ALREADY_EXIST":"The problem has been already added to the session.","SESSION_PROBLEM_DOES_NOT_EXIST":"The problem does not relate to the session.","PROBLEM_INDEX_NEGATIVE":"Problem index must be non negative.","AUTHOR_IS_CURRENT_TEAM_MEMBER":"The user you tried to add is already a member of the current team.","AUTHOR_IS_ANOTHER_TEAM_MEMBER":"The user you tried to add is already a member of another team in the current session.","AUTHOR_IS_JUDGE":"The user you tried to add is a judge.","AUTHOR_IS_NOT_TEAM_MEMBER":"The user you tried to remove is not a team member.","JUDGE_IS_TEAM_MEMBER":"The user you tried to add is a session team member or invitee.","SESSION_PUBLISHING_DENIED":"You do not have permission to publish this session.","CANNOT_PUBLISH_HISTORICAL_SESSION":"You cannot publish a session with a historical start time.","INVALID_TEAM_NAME_TOO_LONG":"The team name you are trying to add is too long","TEAM_NAME_IS_NOT_VISIBLE":"The team name you are trying to add is not visible"};
+
+    return {
+        get_msg: function (error_code) {
+            return messages[error_code];
+        },
+
+        show_msg: function (base_message, error_code) {
+            if (error_code) {
+                alert(base_message + ": " + this.get_msg(error_code));
+            } else {
+                alert(base_message);
+            }
+        },
+
+        show_xhr_msg: function (elem, jqXHR) {
+            var base_message = elem.data('fail-msg');
+            var code = jqXHR.responseJSON && jqXHR.responseJSON.error &&
+                       jqXHR.responseJSON.error.code;
+            this.show_msg(base_message, code);
+        }
+    }
+})());
+</script>
+
+    
+
+    <script type="text/javascript">
+var rumMOKey="a854f3a6dd7ee5e3b7d1641570b79c34";
+(function(){
+if(window.performance && window.performance.timing && window.performance.navigation) {
+	var site24x7_rum_beacon=document.createElement('script');
+	site24x7_rum_beacon.async=true;
+	site24x7_rum_beacon.setAttribute('src','//static.site24x7rum.eu/beacon/site24x7rum-min.js?appKey='+rumMOKey);
+	document.getElementsByTagName('head')[0].appendChild(site24x7_rum_beacon);
+}
+})(window)
+</script>
+
+    
+</head>
+
+<body class="page-master-layout page-profile">
+
+
+<div id="wrapper">
+    <header class="header">
+    <div class="background">
+        
+        <div class="wrap">
+            <div class="fl">
+                                    <a href="/"><img class="logo logo-open" src="/images/site-logo" alt="" /></a>
+                                <div class="title-wrapper">
+                    <div class="header-title">Kattis</div>
+                    <nav class="main-nav">
+                        <ul>
+                                                                                            
+                                <li class=""><a href="/problems">Problems</a></li>
+                                                                                            
+                                <li class=""><a href="/contests">Contests</a></li>
+                                                                                            
+                                <li class=""><a href="/ranklist">Ranklists</a></li>
+                                                                                            
+                                <li class=""><a href="/jobs">Jobs</a></li>
+                                                                                            
+                                <li class=""><a href="/help">Help</a></li>
+                            
+                                                    </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="user-side fr">
+
+                <nav class="user-nav">
+                    <ul class="user-nav-ul">
+                                                    <li>
+                                <form action="/search" class="site-search" method="GET">
+                                    <input type="text" name="q" placeholder="Search Kattis" />
+                                    <a href="#">
+                                        <i class="fa fa-search"></i>
+                                    </a>
+                                </form>
+                            </li>
+                        
+                                                                                    <li><a class="btn dark-bg" href="/login">Log in</a></li>
+                                                                        </ul>
+
+                </nav>
+
+            </div>
+        </div>
+    </div>
+</header>
+
+    <!--[if IE]>    <div class="alert alert-warning" role="alert">
+        <strong>You are using an outdated browser!</strong> Some features might not look or work like expected. Kattis supports the last two versions of major browsers. Please consider upgrading to a recent version!    </div>
+    <![endif]-->
+
+    
+    
+    
+    
+    
+
+    <div class="wrap">
+        
+
+        
+                    
+
+        
+                
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="page-content boxed clearfix icpc-hide">
+    <section class="box clearfix main-content">
+        <div class="page-headline clearfix">
+
+            <div class="user-info clearfix">
+
+                <div class="basic-info clearfix">
+                    <div class="user-img" style="background-image: url('/images/countries/CAN/ON/160px?'); border: 1px rgb(137, 137, 146) solid;"></div>
+
+                    <div class="col-md-8">
+                        <div class="fullname row no-padding">
+                            <h1>Ontario</h1>
+                                                        <div class="infobox">
+                                <div class="country-flag">
+                                    <div class="country-flag has_flag icpc-hide"><a href="/countries/CAN" title="Canada"><img src="/images/countries/CAN/40px?" /></a><span class="text"><a href="/countries/CAN">Canada</a></span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                                                            <div class="infobox">
+                                    <span class="title">Universities</span>
+                                    <span class="header-value">22</span>
+                                </div>
+                                                                                        <div class="infobox">
+                                    <span class="title">Users</span>
+                                    <span class="header-value">1026</span>
+                                </div>
+                                                    </div>
+                    </div>
+                </div>
+
+                                <div class="fr score_wrapper">
+                    <div class="rank clearfix">
+                        <table>
+                            <tr>
+                                <td><span>Rank</span></td>
+                                <td><span>Score</span></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>1883.0</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                            </div>
+
+        </div>
+    </section>
+</div>
+
+<div class="page-content boxed clearfix icpc-hide">
+    <section class="box clearfix main-content">
+        <div class="page-sub-header">
+            <h2>Top 10 universities from Ontario</h2>
+        </div>
+        
+<table class="table table-hover table-kattis">
+    <thead>
+        <tr>
+            <th class="table-min-wrap">#</th>
+            <th>University</th>
+                                        <th class="table-min-wrap">Users</th>
+                        <th class="table-min-wrap">
+                Score <span class="wrapped-link"><a href="/help/ranklist#combinedscore"
+                                                          aria-label="Explanation of combined score">?</a></span>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+                                                                                                                
+                    <tr>
+                        <td>1</td>
+                <td><span class="university-logo has_flag"><a href="/universities/uwaterloo.ca" title="University of Waterloo"><img src="/images/universities/uwaterloo.ca/40px?" /></a><span class="text"><a href="/universities/uwaterloo.ca">University of Waterloo</a></span></span></td>
+                                                        <td class="table-td-align-right">298</td>
+                                <td class="table-td-align-right">1257.0</td>
+            </tr>
+
+                                                                                                    
+                    <tr>
+                        <td>2</td>
+                <td><span class="university-logo has_flag"><a href="/universities/utoronto.ca" title="University of Toronto"><img src="/images/universities/utoronto.ca/40px?" /></a><span class="text"><a href="/universities/utoronto.ca">University of Toronto</a></span></span></td>
+                                                        <td class="table-td-align-right">382</td>
+                                <td class="table-td-align-right">435.9</td>
+            </tr>
+
+                                                                                                    
+                    <tr>
+                        <td>3</td>
+                <td><span class="university-logo has_flag"><a href="/universities/carleton.ca" title="Carleton University"><img src="/images/universities/carleton.ca/40px?" /></a><span class="text"><a href="/universities/carleton.ca">Carleton University</a></span></span></td>
+                                                        <td class="table-td-align-right">42</td>
+                                <td class="table-td-align-right">409.1</td>
+            </tr>
+
+                                                                                                    
+                    <tr>
+                        <td>4</td>
+                <td><span class="university-logo has_flag"><a href="/universities/ryerson.ca" title="Ryerson University"><img src="/images/universities/ryerson.ca/40px?" /></a><span class="text"><a href="/universities/ryerson.ca">Ryerson University</a></span></span></td>
+                                                        <td class="table-td-align-right">320</td>
+                                <td class="table-td-align-right">342.1</td>
+            </tr>
+
+                                                                                                    
+                    <tr>
+                        <td>5</td>
+                <td><span class="university-logo has_flag"><a href="/universities/yorku.ca" title="York University"><img src="/images/universities/yorku.ca/40px?" /></a><span class="text"><a href="/universities/yorku.ca">York University</a></span></span></td>
+                                                        <td class="table-td-align-right">190</td>
+                                <td class="table-td-align-right">279.5</td>
+            </tr>
+
+                                                                                                    
+                    <tr>
+                        <td>6</td>
+                <td><span class="university-logo has_flag"><a href="/universities/uwindsor.ca" title="University of Windsor"><img src="/images/universities/uwindsor.ca/40px?" /></a><span class="text"><a href="/universities/uwindsor.ca">University of Windsor</a></span></span></td>
+                                                        <td class="table-td-align-right">106</td>
+                                <td class="table-td-align-right">202.5</td>
+            </tr>
+
+                                                                                                    
+                    <tr>
+                        <td>7</td>
+                <td><span class="university-logo has_flag"><a href="/universities/conestogac.on.ca" title="Conestoga College"><img src="/images/universities/conestogac.on.ca/40px?" /></a><span class="text"><a href="/universities/conestogac.on.ca">Conestoga College</a></span></span></td>
+                                                        <td class="table-td-align-right">1</td>
+                                <td class="table-td-align-right">183.9</td>
+            </tr>
+
+                                                                                                    
+                    <tr>
+                        <td>8</td>
+                <td><span class="university-logo has_flag"><a href="/universities/brocku.ca" title="Brock University"><img src="/images/universities/brocku.ca/40px?" /></a><span class="text"><a href="/universities/brocku.ca">Brock University</a></span></span></td>
+                                                        <td class="table-td-align-right">30</td>
+                                <td class="table-td-align-right">133.9</td>
+            </tr>
+
+                                                                                                    
+                    <tr>
+                        <td>9</td>
+                <td><span class="university-logo has_flag"><a href="/universities/mcmaster.ca" title="McMaster University"><img src="/images/universities/mcmaster.ca/40px?" /></a><span class="text"><a href="/universities/mcmaster.ca">McMaster University</a></span></span></td>
+                                                        <td class="table-td-align-right">38</td>
+                                <td class="table-td-align-right">89.4</td>
+            </tr>
+
+                                                                                                    
+                    <tr>
+                        <td>10</td>
+                <td><span class="university-logo has_flag"><a href="/universities/queensu.ca" title="Queen&#039;s University"><img src="/images/universities/queensu.ca/40px?" /></a><span class="text"><a href="/universities/queensu.ca">Queen&#039;s University</a></span></span></td>
+                                                        <td class="table-td-align-right">9</td>
+                                <td class="table-td-align-right">48.1</td>
+            </tr>
+
+                        </tbody>
+</table>
+
+    </section>
+</div>
+
+<div class="page-content boxed clearfix icpc-hide">
+    <section class="box clearfix main-content">
+
+        <div class="page-sub-header">
+            <h2>Top 50 users from Ontario</h2>
+                    </div>
+
+        
+    <table class="table table-hover table-kattis">
+        <thead>
+            <tr>
+                <th class="table-min-wrap">#</th>
+                <th>User</th>
+                                                    <th>University</th>
+                                <th class="table-min-wrap">Score <span class="wrapped-link"><a href="/help/ranklist#score" aria-label="Explanation of score">?</a></span></th>
+            </tr>
+        </thead>
+        <tbody>
+                                                                                                                                                                        
+                <tr class="">
+                    <td>
+                                                1
+                                            </td>
+                    <td><a href="/users/crystal-sharpe">Crystal Sharpe</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/mta.ca" title="Mount Allison University"><img src="/images/universities/mta.ca/40px?" /></a><span class="text"><a href="/universities/mta.ca">Mount Allison University</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">3346.2</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                2
+                                            </td>
+                    <td><a href="/users/finn.lidbetter">Thomas Lidbetter</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/mta.ca" title="Mount Allison University"><img src="/images/universities/mta.ca/40px?" /></a><span class="text"><a href="/universities/mta.ca">Mount Allison University</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">3044.7</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                3
+                                            </td>
+                    <td><a href="/users/imjching">Jay Lim</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/uwaterloo.ca" title="University of Waterloo"><img src="/images/universities/uwaterloo.ca/40px?" /></a><span class="text"><a href="/universities/uwaterloo.ca">University of Waterloo</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">1584.8</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                4
+                                            </td>
+                    <td><a href="/users/-eimhin-">Eimhin McDonald</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/carleton.ca" title="Carleton University"><img src="/images/universities/carleton.ca/40px?" /></a><span class="text"><a href="/universities/carleton.ca">Carleton University</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">1453.7</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                5
+                                            </td>
+                    <td><a href="/users/azneye">Andy Huang</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/uwaterloo.ca" title="University of Waterloo"><img src="/images/universities/uwaterloo.ca/40px?" /></a><span class="text"><a href="/universities/uwaterloo.ca">University of Waterloo</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">1130.0</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                6
+                                            </td>
+                    <td><a href="/users/case-ploeg">Case Ploeg</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/utoronto.ca" title="University of Toronto"><img src="/images/universities/utoronto.ca/40px?" /></a><span class="text"><a href="/universities/utoronto.ca">University of Toronto</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">1041.6</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                7
+                                            </td>
+                    <td><a href="/users/kevin-sun">Kevin Sun</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/mit.edu" title="Massachusetts Institute of Technology"><img src="/images/universities/mit.edu/40px?" /></a><span class="text"><a href="/universities/mit.edu">Massachusetts Institute of Technology</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">945.2</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                8
+                                            </td>
+                    <td><a href="/users/eliden">Robert Cummings</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/uwaterloo.ca" title="University of Waterloo"><img src="/images/universities/uwaterloo.ca/40px?" /></a><span class="text"><a href="/universities/uwaterloo.ca">University of Waterloo</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">924.3</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                9
+                                            </td>
+                    <td><a href="/users/roger-bongers">Roger Bongers</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/conestogac.on.ca" title="Conestoga College"><img src="/images/universities/conestogac.on.ca/40px?" /></a><span class="text"><a href="/universities/conestogac.on.ca">Conestoga College</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">919.4</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                10
+                                            </td>
+                    <td><a href="/users/wleung-bvg">Wesley Leung</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/uwaterloo.ca" title="University of Waterloo"><img src="/images/universities/uwaterloo.ca/40px?" /></a><span class="text"><a href="/universities/uwaterloo.ca">University of Waterloo</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">892.9</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                11
+                                            </td>
+                    <td><a href="/users/sean-purcell-7030">Sean Purcell</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/uwaterloo.ca" title="University of Waterloo"><img src="/images/universities/uwaterloo.ca/40px?" /></a><span class="text"><a href="/universities/uwaterloo.ca">University of Waterloo</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">844.9</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                12
+                                            </td>
+                    <td><a href="/users/cojo">Colin Hryniowski</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/unb.ca" title="University of New Brunswick"><img src="/images/universities/unb.ca/40px?" /></a><span class="text"><a href="/universities/unb.ca">University of New Brunswick</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">759.9</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                13
+                                            </td>
+                    <td><a href="/users/reyno-tilikaynen-8917">Reyno Tilikaynen</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/uwaterloo.ca" title="University of Waterloo"><img src="/images/universities/uwaterloo.ca/40px?" /></a><span class="text"><a href="/universities/uwaterloo.ca">University of Waterloo</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">676.4</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                14
+                                            </td>
+                    <td><a href="/users/farbod-yadegarian">Farbod Yadegarian</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/uwaterloo.ca" title="University of Waterloo"><img src="/images/universities/uwaterloo.ca/40px?" /></a><span class="text"><a href="/universities/uwaterloo.ca">University of Waterloo</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">676.3</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                15
+                                            </td>
+                    <td><a href="/users/injust">Justin Su</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/yorku.ca" title="York University"><img src="/images/universities/yorku.ca/40px?" /></a><span class="text"><a href="/universities/yorku.ca">York University</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">652.9</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                16
+                                            </td>
+                    <td><a href="/users/matthew-stewart-0659">Matthew Stewart</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/ryerson.ca" title="Ryerson University"><img src="/images/universities/ryerson.ca/40px?" /></a><span class="text"><a href="/universities/ryerson.ca">Ryerson University</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">580.6</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                17
+                                            </td>
+                    <td><a href="/users/michael-laszlo-2967">Michael Laszlo</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/uwaterloo.ca" title="University of Waterloo"><img src="/images/universities/uwaterloo.ca/40px?" /></a><span class="text"><a href="/universities/uwaterloo.ca">University of Waterloo</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">551.8</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                18
+                                            </td>
+                    <td><a href="/users/akshdeep-sharma">Akshdeep Sharma</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/ryerson.ca" title="Ryerson University"><img src="/images/universities/ryerson.ca/40px?" /></a><span class="text"><a href="/universities/ryerson.ca">Ryerson University</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">539.5</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                19
+                                            </td>
+                    <td><a href="/users/jason-yuen">Jason Yuen</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/uwaterloo.ca" title="University of Waterloo"><img src="/images/universities/uwaterloo.ca/40px?" /></a><span class="text"><a href="/universities/uwaterloo.ca">University of Waterloo</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">535.4</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                20
+                                            </td>
+                    <td><a href="/users/joel-gritter">Joel Gritter</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/brocku.ca" title="Brock University"><img src="/images/universities/brocku.ca/40px?" /></a><span class="text"><a href="/universities/brocku.ca">Brock University</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">456.8</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                21
+                                            </td>
+                    <td><a href="/users/renatoferreira12">Renato Ferreira</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/uwaterloo.ca" title="University of Waterloo"><img src="/images/universities/uwaterloo.ca/40px?" /></a><span class="text"><a href="/universities/uwaterloo.ca">University of Waterloo</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">444.9</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                22
+                                            </td>
+                    <td><a href="/users/imax-blue">Imax Blue</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/uwaterloo.ca" title="University of Waterloo"><img src="/images/universities/uwaterloo.ca/40px?" /></a><span class="text"><a href="/universities/uwaterloo.ca">University of Waterloo</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">444.2</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                23
+                                            </td>
+                    <td><a href="/users/dennis-shi">Dennis Shi</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/yorku.ca" title="York University"><img src="/images/universities/yorku.ca/40px?" /></a><span class="text"><a href="/universities/yorku.ca">York University</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">409.0</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                24
+                                            </td>
+                    <td><a href="/users/worleyd">David Worley</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/uwindsor.ca" title="University of Windsor"><img src="/images/universities/uwindsor.ca/40px?" /></a><span class="text"><a href="/universities/uwindsor.ca">University of Windsor</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">396.2</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                25
+                                            </td>
+                    <td><a href="/users/daniel-gomez-1">Daniel Gomez</a></td>
+                                                                <td class="table-min-wrap">
+                                                    </td>
+                                        <td class="table-td-align-right">347.1</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                26
+                                            </td>
+                    <td><a href="/users/adam-vandolder-7815">Adam Vandolder</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/uwindsor.ca" title="University of Windsor"><img src="/images/universities/uwindsor.ca/40px?" /></a><span class="text"><a href="/universities/uwindsor.ca">University of Windsor</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">339.0</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                27
+                                            </td>
+                    <td><a href="/users/devaneyp">Patrick Devaney</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/uwindsor.ca" title="University of Windsor"><img src="/images/universities/uwindsor.ca/40px?" /></a><span class="text"><a href="/universities/uwindsor.ca">University of Windsor</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">319.8</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                28
+                                            </td>
+                    <td><a href="/users/jonathantsang">Jonathan Tsang</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/uwaterloo.ca" title="University of Waterloo"><img src="/images/universities/uwaterloo.ca/40px?" /></a><span class="text"><a href="/universities/uwaterloo.ca">University of Waterloo</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">311.2</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                29
+                                            </td>
+                    <td><a href="/users/prantar-bhowmik">Prantar Bhowmik</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/utoronto.ca" title="University of Toronto"><img src="/images/universities/utoronto.ca/40px?" /></a><span class="text"><a href="/universities/utoronto.ca">University of Toronto</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">303.4</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                30
+                                            </td>
+                    <td><a href="/users/cory-austin1">Cory Austin</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/ryerson.ca" title="Ryerson University"><img src="/images/universities/ryerson.ca/40px?" /></a><span class="text"><a href="/universities/ryerson.ca">Ryerson University</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">303.3</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                31
+                                            </td>
+                    <td><a href="/users/morgan-k-bender">Morgan K Bender</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/mta.ca" title="Mount Allison University"><img src="/images/universities/mta.ca/40px?" /></a><span class="text"><a href="/universities/mta.ca">Mount Allison University</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">301.8</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                32
+                                            </td>
+                    <td><a href="/users/fengyang-wang">Fengyang Wang</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/uwaterloo.ca" title="University of Waterloo"><img src="/images/universities/uwaterloo.ca/40px?" /></a><span class="text"><a href="/universities/uwaterloo.ca">University of Waterloo</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">281.7</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                33
+                                            </td>
+                    <td><a href="/users/jacob-jackson-6938">Jacob Jackson</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/uwaterloo.ca" title="University of Waterloo"><img src="/images/universities/uwaterloo.ca/40px?" /></a><span class="text"><a href="/universities/uwaterloo.ca">University of Waterloo</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">280.3</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                34
+                                            </td>
+                    <td><a href="/users/jason-tomkins">Jason Tomkins</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/uwaterloo.ca" title="University of Waterloo"><img src="/images/universities/uwaterloo.ca/40px?" /></a><span class="text"><a href="/universities/uwaterloo.ca">University of Waterloo</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">275.9</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                35
+                                            </td>
+                    <td><a href="/users/kobortor">Joey Yu</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/uwaterloo.ca" title="University of Waterloo"><img src="/images/universities/uwaterloo.ca/40px?" /></a><span class="text"><a href="/universities/uwaterloo.ca">University of Waterloo</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">271.5</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                36
+                                            </td>
+                    <td><a href="/users/oac">Omar Chehab</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/utoronto.ca" title="University of Toronto"><img src="/images/universities/utoronto.ca/40px?" /></a><span class="text"><a href="/universities/utoronto.ca">University of Toronto</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">268.6</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                37
+                                            </td>
+                    <td><a href="/users/alan-wu">Alan Wu</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/carleton.ca" title="Carleton University"><img src="/images/universities/carleton.ca/40px?" /></a><span class="text"><a href="/universities/carleton.ca">Carleton University</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">256.7</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                38
+                                            </td>
+                    <td><a href="/users/jeffrey-xiao-2424">Jeffrey Xiao</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/uwaterloo.ca" title="University of Waterloo"><img src="/images/universities/uwaterloo.ca/40px?" /></a><span class="text"><a href="/universities/uwaterloo.ca">University of Waterloo</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">250.8</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                39
+                                            </td>
+                    <td><a href="/users/pony1999">Yao Wang</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/uwaterloo.ca" title="University of Waterloo"><img src="/images/universities/uwaterloo.ca/40px?" /></a><span class="text"><a href="/universities/uwaterloo.ca">University of Waterloo</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">248.0</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                40
+                                            </td>
+                    <td><a href="/users/csibbald1">Cole Sibbald</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/uvic.ca" title="University of Victoria"><img src="/images/universities/uvic.ca/40px?" /></a><span class="text"><a href="/universities/uvic.ca">University of Victoria</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">243.3</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                41
+                                            </td>
+                    <td><a href="/users/michael-huang">Michael Huang</a></td>
+                                                                <td class="table-min-wrap">
+                                                    </td>
+                                        <td class="table-td-align-right">234.9</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                42
+                                            </td>
+                    <td><a href="/users/wyatt-wismer">Wyatt Wismer</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/mcmaster.ca" title="McMaster University"><img src="/images/universities/mcmaster.ca/40px?" /></a><span class="text"><a href="/universities/mcmaster.ca">McMaster University</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">234.8</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                43
+                                            </td>
+                    <td><a href="/users/brendon-zhang-5349">Brendon Zhang</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/ryerson.ca" title="Ryerson University"><img src="/images/universities/ryerson.ca/40px?" /></a><span class="text"><a href="/universities/ryerson.ca">Ryerson University</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">233.5</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                44
+                                            </td>
+                    <td><a href="/users/halfsquirrel">Gordie Levitsky</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/utoronto.ca" title="University of Toronto"><img src="/images/universities/utoronto.ca/40px?" /></a><span class="text"><a href="/universities/utoronto.ca">University of Toronto</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">232.8</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                45
+                                            </td>
+                    <td><a href="/users/alexanderursu99">Alexander Ursu</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/utoronto.ca" title="University of Toronto"><img src="/images/universities/utoronto.ca/40px?" /></a><span class="text"><a href="/universities/utoronto.ca">University of Toronto</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">232.7</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                46
+                                            </td>
+                    <td><a href="/users/joey-chan">Joey Chan</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/ryerson.ca" title="Ryerson University"><img src="/images/universities/ryerson.ca/40px?" /></a><span class="text"><a href="/universities/ryerson.ca">Ryerson University</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">224.1</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                47
+                                            </td>
+                    <td><a href="/users/natsukagami">Phạm Cao Nguyên</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/uwaterloo.ca" title="University of Waterloo"><img src="/images/universities/uwaterloo.ca/40px?" /></a><span class="text"><a href="/universities/uwaterloo.ca">University of Waterloo</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">214.2</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                48
+                                            </td>
+                    <td><a href="/users/hadi-qovaizi">Hadi Qovaizi</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/ryerson.ca" title="Ryerson University"><img src="/images/universities/ryerson.ca/40px?" /></a><span class="text"><a href="/universities/ryerson.ca">Ryerson University</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">204.4</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                49
+                                            </td>
+                    <td><a href="/users/ahmed-walid">Ahmed Walid</a></td>
+                                                                <td class="table-min-wrap">
+                                                            <span class="university-logo has_flag"><a href="/universities/yorku.ca" title="York University"><img src="/images/universities/yorku.ca/40px?" /></a><span class="text"><a href="/universities/yorku.ca">York University</a></span></span>
+                                                    </td>
+                                        <td class="table-td-align-right">202.7</td>
+                </tr>
+                                                                                                                                                                                    
+                <tr class="">
+                    <td>
+                                                50
+                                            </td>
+                    <td><a href="/users/germain-zhang">Germain Zhang</a></td>
+                                                                <td class="table-min-wrap">
+                                                    </td>
+                                        <td class="table-td-align-right">198.2</td>
+                </tr>
+                                                                    </tbody>
+    </table>
+
+
+                    
+    <p class="last-updated-info">
+        Last updated at 14:54:53 EDT
+    </p>
+
+        
+    </section>
+</div>
+
+
+    </div>
+
+
+</div>
+
+
+<div id="footer">
+    <div class="container">
+        <div class="row">
+            <div class="footer-info col-md-2 ">
+                
+                            </div>
+            <div class="footer-powered col-md-8">
+                <h4>
+                                      <a href="/rss/new-problems"><i class="fa fa-rss-square" style="color: orange"></i>&nbsp;RSS feed for new problems</a> |
+                                    Powered by&nbsp;Kattis                                      | <a href="https://www.patreon.com/kattis">Support Kattis on Patreon!</a>
+                                  </h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/select2/3.5.4/select2.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.2.8/raphael.min.js"></script>
+<script src="/js/system.js?203d73=" type="text/javascript"></script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,1 @@
+wget --output-document=./public/kattis/countries_CAN_ON.html https://open.kattis.com/countries/CAN/ON 
